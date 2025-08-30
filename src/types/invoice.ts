@@ -1,17 +1,20 @@
 export interface Invoice {
   id: number;
   invoice_number: string;
-  status: 'Vigente' | 'Pagada' | 'Vencida' | 'Cancelada';
-  amount: number;
-  currency: string;
-  issue_date: string;
-  due_date: string;
+  total: string;
+  formatted_total: string;
+  invoice_date: string;
+  formatted_date: string;
+  short_date: string;
+  status: 'Vigente' | 'Pagada' | 'Vencida' | 'Cancelada' | 'Pendiente' | 'Cancelado';
   active: boolean;
-  customer_name?: string;
-  customer_email?: string;
-  description?: string;
-  created_at: string;
-  updated_at: string;
+  active_status_text: string;
+  active_status_class: string;
+  status_badge_class: string;
+  status_icon: string;
+  amount_category: string;
+  amount_category_class: string;
+  days_since_created: number;
 }
 
 export interface InvoiceFilters {
@@ -27,21 +30,14 @@ export interface InvoiceFilters {
 }
 
 export interface InvoiceResponse {
-  data: Invoice[];
-  meta: {
+  invoices: Invoice[];
+  pagination: {
     current_page: number;
-    last_page: number;
+    total_pages: number;
+    total_count: number;
     per_page: number;
-    total: number;
-    from: number;
-    to: number;
   };
-  links: {
-    first: string;
-    last: string;
-    prev: string | null;
-    next: string | null;
-  };
+  search_params: Record<string, string>;
 }
 
 export interface ApiError {

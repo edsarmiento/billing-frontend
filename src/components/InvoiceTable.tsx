@@ -26,7 +26,7 @@ export default function InvoiceTable({
   onExport,
   onViewInvoice,
 }: InvoiceTableProps) {
-  const [sortField, setSortField] = useState<keyof Invoice>('issue_date');
+  const [sortField, setSortField] = useState<keyof Invoice>('invoice_date');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
   const handleSort = (field: keyof Invoice) => {
@@ -38,7 +38,7 @@ export default function InvoiceTable({
     }
   };
 
-  const sortedInvoices = data?.data ? [...data.data].sort((a, b) => {
+  const sortedInvoices = data?.invoices ? [...data.invoices].sort((a, b) => {
     const aValue = a[sortField];
     const bValue = b[sortField];
     
@@ -64,7 +64,7 @@ export default function InvoiceTable({
     );
   }
 
-  if (!data || data.data.length === 0) {
+  if (!data || data.invoices.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
         <div className="text-gray-500">
@@ -81,10 +81,10 @@ export default function InvoiceTable({
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-900">
-            Facturas ({data.meta.total})
+            Facturas ({data.pagination.total_count})
           </h3>
           <p className="text-sm text-gray-500">
-            Mostrando {data.meta.from}-{data.meta.to} de {data.meta.total} resultados
+            Mostrando {((data.pagination.current_page - 1) * data.pagination.per_page) + 1}-{Math.min(data.pagination.current_page * data.pagination.per_page, data.pagination.total_count)} de {data.pagination.total_count} resultados
           </p>
         </div>
         <button
@@ -114,22 +114,22 @@ export default function InvoiceTable({
                 Estado
               </th>
               <th
-                onClick={() => handleSort('amount')}
+                onClick={() => handleSort('total')}
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               >
                 Monto
               </th>
               <th
-                onClick={() => handleSort('issue_date')}
+                onClick={() => handleSort('invoice_date')}
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               >
                 Fecha Emisión
               </th>
               <th
-                onClick={() => handleSort('due_date')}
+                onClick={() => handleSort('active')}
                 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               >
-                Fecha Vencimiento
+                Activa
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Acciones
@@ -143,25 +143,26 @@ export default function InvoiceTable({
                   <div className="text-sm font-medium text-gray-900">
                     {invoice.invoice_number}
                   </div>
-                  {invoice.customer_name && (
-                    <div className="text-sm text-gray-500">
-                      {invoice.customer_name}
-                    </div>
-                  )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <StatusBadge status={invoice.status} />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
-                    {formatCurrency(invoice.amount, invoice.currency)}
+                    {invoice.formatted_total}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {formatDate(invoice.issue_date)}
+                  {invoice.short_date}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {formatDate(invoice.due_date)}
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                    invoice.active 
+                      ? 'bg-green-100 text-green-800' 
+                      : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    {invoice.active ? 'Sí' : 'No'}
+                  </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button
@@ -179,18 +180,18 @@ export default function InvoiceTable({
       </div>
 
       {/* Pagination */}
-      {data.meta.last_page > 1 && (
+      {data.pagination.total_pages > 1 && (
         <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-700">
-              Página {data.meta.current_page} de {data.meta.last_page}
+              Página {data.pagination.current_page} de {data.pagination.total_pages}
             </span>
           </div>
           
           <div className="flex items-center gap-2">
             <button
-              onClick={() => onPageChange(data.meta.current_page - 1)}
-              disabled={data.meta.current_page === 1}
+              onClick={() => onPageChange(data.pagination.current_page - 1)}
+              disabled={data.pagination.current_page === 1}
               className="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ChevronLeftIcon className="w-4 h-4" />
@@ -198,8 +199,8 @@ export default function InvoiceTable({
             </button>
             
             <button
-              onClick={() => onPageChange(data.meta.current_page + 1)}
-              disabled={data.meta.current_page === data.meta.last_page}
+              onClick={() => onPageChange(data.pagination.current_page + 1)}
+              disabled={data.pagination.current_page === data.pagination.total_pages}
               className="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Siguiente
