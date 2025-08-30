@@ -138,7 +138,7 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
           <div className="space-y-4 pt-4 border-t border-gray-200">
             <div className="text-sm text-gray-600 bg-blue-50 p-3 rounded-md">
               <p className="font-medium mb-1">💡 Consejo:</p>
-              <p>Después de configurar los filtros de fecha, haz clic en "Buscar" para aplicar los filtros.</p>
+              <p>Después de configurar los filtros de fecha, haz clic en &ldquo;Buscar&rdquo; para aplicar los filtros.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>

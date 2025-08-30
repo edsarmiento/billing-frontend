@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Invoice, InvoiceResponse } from '@/types/invoice';
-import { formatDate, formatCurrency } from '@/utils/formatters';
+
 import StatusBadge from './StatusBadge';
 import {
   ChevronLeftIcon,
