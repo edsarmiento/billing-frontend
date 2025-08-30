@@ -37,7 +37,7 @@ Una aplicación web moderna para consulta y gestión de facturas, desarrollada c
 
 1. **Clonar el repositorio**
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:edsarmiento/billing-frontend.git
    cd billing-frontend
    ```
 
@@ -53,7 +53,7 @@ Una aplicación web moderna para consulta y gestión de facturas, desarrollada c
 
 4. **Abrir en el navegador**
    ```
-   http://localhost:3001
+   http://localhost:8080
    ```
 
 ## 🔧 Scripts Disponibles
