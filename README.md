@@ -58,7 +58,7 @@ Una aplicación web moderna para consulta y gestión de facturas, desarrollada c
 
 ## 🔧 Scripts Disponibles
 
-- `npm run dev` - Inicia el servidor de desarrollo
+- `npm run dev -- -p 8080` - Inicia el servidor de desarrollo
 - `npm run build` - Construye la aplicación para producción
 - `npm run start` - Inicia el servidor de producción
 - `npm run lint` - Ejecuta el linter
