@@ -22,7 +22,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadInvoices = useCallback(async (filters: InvoiceFilters = currentFilters) => {
+  const loadInvoices = useCallback(async (filters: InvoiceFilters) => {
     setIsLoading(true);
     setError(null);
     
@@ -37,12 +37,12 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-  }, [currentFilters]);
+  }, []); // Remove currentFilters dependency to prevent infinite loops
 
   // Load invoices on component mount
   useEffect(() => {
     loadInvoices({ per_page: 15 });
-  }, [loadInvoices]);
+  }, []); // Run only once on mount
 
   const handleFiltersChange = (filters: InvoiceFilters) => {
     setCurrentFilters(filters);

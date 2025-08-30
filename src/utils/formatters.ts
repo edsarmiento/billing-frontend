@@ -10,6 +10,15 @@ export const formatDate = (dateString: string): string => {
   }
 };
 
+export const formatDateAsYYYYMMDD = (dateString: string): string => {
+  try {
+    const date = parseISO(dateString);
+    return format(date, 'yyyy-MM-dd');
+  } catch {
+    return dateString;
+  }
+};
+
 export const formatDateTime = (dateString: string): string => {
   try {
     const date = parseISO(dateString);

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Invoice, InvoiceResponse } from '@/types/invoice';
+import { formatDateAsYYYYMMDD } from '@/utils/formatters';
 
 import StatusBadge from './StatusBadge';
 import {
@@ -159,7 +160,7 @@ export default function InvoiceTable({
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-semibold text-gray-800">
-                    {invoice.short_date}
+                    {formatDateAsYYYYMMDD(invoice.invoice_date)}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
