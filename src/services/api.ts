@@ -1,6 +1,7 @@
 import { Invoice, InvoiceFilters, InvoiceResponse } from '@/types/invoice';
 
-const API_BASE_URL = '/api';
+// Use environment variable for backend URL, fallback to localhost for development
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
 
 class ApiServiceError extends Error {
   constructor(
