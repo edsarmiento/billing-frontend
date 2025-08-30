@@ -80,10 +80,10 @@ export default function InvoiceTable({
       {/* Header */}
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-xl font-bold text-gray-900">
             Facturas ({data.pagination.total_count})
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm font-medium text-gray-600">
             Mostrando {((data.pagination.current_page - 1) * data.pagination.per_page) + 1}-{Math.min(data.pagination.current_page * data.pagination.per_page, data.pagination.total_count)} de {data.pagination.total_count} resultados
           </p>
         </div>
@@ -103,35 +103,35 @@ export default function InvoiceTable({
             <tr>
               <th
                 onClick={() => handleSort('invoice_number')}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               >
                 Número
               </th>
               <th
                 onClick={() => handleSort('status')}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               >
                 Estado
               </th>
               <th
                 onClick={() => handleSort('total')}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               >
                 Monto
               </th>
               <th
                 onClick={() => handleSort('invoice_date')}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               >
                 Fecha Emisión
               </th>
               <th
                 onClick={() => handleSort('active')}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
               >
                 Activa
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
                 Acciones
               </th>
             </tr>
@@ -140,7 +140,7 @@ export default function InvoiceTable({
             {sortedInvoices.map((invoice) => (
               <tr key={invoice.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
+                  <div className="text-sm font-semibold text-gray-800">
                     {invoice.invoice_number}
                   </div>
                 </td>
@@ -148,12 +148,14 @@ export default function InvoiceTable({
                   <StatusBadge status={invoice.status} />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
+                  <div className="text-sm font-bold text-green-700">
                     {invoice.formatted_total}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {invoice.short_date}
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm font-semibold text-gray-800">
+                    {invoice.short_date}
+                  </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -167,7 +169,7 @@ export default function InvoiceTable({
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button
                     onClick={() => onViewInvoice(invoice.invoice_number)}
-                    className="text-blue-600 hover:text-blue-900 flex items-center gap-1"
+                    className="text-blue-700 hover:text-blue-900 font-semibold flex items-center gap-1"
                   >
                     <EyeIcon className="w-4 h-4" />
                     Ver
@@ -183,7 +185,7 @@ export default function InvoiceTable({
       {data.pagination.total_pages > 1 && (
         <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-700">
+            <span className="text-sm font-semibold text-gray-800">
               Página {data.pagination.current_page} de {data.pagination.total_pages}
             </span>
           </div>

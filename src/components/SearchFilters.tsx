@@ -45,14 +45,14 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-          <FunnelIcon className="w-5 h-5" />
+        <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+          <FunnelIcon className="w-6 h-6" />
           Filtros de Búsqueda
         </h2>
         <button
           type="button"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-sm text-gray-600 hover:text-gray-900"
+          className="text-sm font-semibold text-blue-600 hover:text-blue-800"
         >
           {isExpanded ? 'Ocultar' : 'Mostrar'} filtros avanzados
         </button>
@@ -62,24 +62,24 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
         {/* Basic Search */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
               Número de Factura
             </label>
             <input
               type="text"
               {...register('invoice_number')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
               placeholder="Ej: C30481"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
               Estado
             </label>
             <select
               {...register('status')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
             >
               <option value="">Todos los estados</option>
               <option value="Vigente">Vigente</option>
@@ -90,12 +90,12 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-semibold text-gray-800 mb-2">
               Activa
             </label>
             <select
               {...register('active')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
             >
               <option value="">Todas</option>
               <option value="true">Solo activas</option>
@@ -109,62 +109,62 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
           <div className="space-y-4 pt-4 border-t border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
                   Fecha Desde
                 </label>
                 <input
                   type="date"
                   {...register('date_from')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
                   Fecha Hasta
                 </label>
                 <input
                   type="date"
                   {...register('date_to')}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
                   Monto Mínimo
                 </label>
                 <input
                   type="number"
                   step="0.01"
                   {...register('min_amount', { valueAsNumber: true })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
                   placeholder="0.00"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
                   Monto Máximo
                 </label>
                 <input
                   type="number"
                   step="0.01"
                   {...register('max_amount', { valueAsNumber: true })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
                   placeholder="0.00"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
                   Elementos por página
                 </label>
                 <select
                   {...register('per_page', { valueAsNumber: true })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
                 >
                   <option value={5}>5</option>
                   <option value={10}>10</option>
@@ -183,7 +183,7 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
             <button
               type="submit"
               disabled={isLoading}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
             >
               <MagnifyingGlassIcon className="w-4 h-4" />
               {isLoading ? 'Buscando...' : 'Buscar'}
@@ -193,7 +193,7 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
               <button
                 type="button"
                 onClick={handleReset}
-                className="inline-flex items-center gap-2 px-4 py-2 text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 font-semibold"
               >
                 <XMarkIcon className="w-4 h-4" />
                 Limpiar
@@ -202,7 +202,7 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
           </div>
 
           {hasActiveFilters && (
-            <div className="text-sm text-gray-500">
+            <div className="text-sm font-semibold text-blue-600">
               Filtros activos
             </div>
           )}
