@@ -56,7 +56,8 @@ export const invoiceApi = {
       },
     });
 
-    return handleResponse<Invoice>(response);
+    const data = await handleResponse<{ invoice: Invoice }>(response);
+    return data.invoice;
   },
 
   // Search invoices using the search endpoint

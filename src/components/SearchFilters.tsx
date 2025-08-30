@@ -26,15 +26,28 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
   const onSubmit = (data: InvoiceFilters) => {
     // Remove empty values and convert types
     const cleanData = Object.fromEntries(
-      Object.entries(data).filter(([_, value]) => 
-        value !== undefined && value !== null && value !== '' && !isNaN(Number(value))
-      ).map(([key, value]) => {
+      Object.entries(data).filter(([key, value]) => {
+        // Don't filter out active boolean values or string values (like status)
+        if (key === 'active' || key === 'status' || key === 'invoice_number') {
+          return value !== undefined && value !== null && value !== '';
+        }
+        // For numeric values, check if they're not empty and not NaN
+        if (key === 'min_amount' || key === 'max_amount' || key === 'per_page' || key === 'page') {
+          return value !== undefined && value !== null && value !== '' && !isNaN(Number(value));
+        }
+        // For date values, just check if they're not empty
+        if (key === 'date_from' || key === 'date_to') {
+          return value !== undefined && value !== null && value !== '';
+        }
+        // Default case
+        return value !== undefined && value !== null && value !== '';
+      }).map(([key, value]) => {
         // Convert active filter from string to boolean
         if (key === 'active' && typeof value === 'string') {
           return [key, value === 'true'];
         }
         // Ensure numeric values are properly converted
-        if ((key === 'min_amount' || key === 'max_amount') && typeof value === 'number') {
+        if ((key === 'min_amount' || key === 'max_amount' || key === 'per_page' || key === 'page') && typeof value === 'number') {
           return [key, value];
         }
         return [key, value];
