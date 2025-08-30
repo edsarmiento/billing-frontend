@@ -44,7 +44,7 @@ export default function Home() {
     }
   };
 
-  const handleFiltersChange = (filters: InvoiceFilters) => {
+    const handleFiltersChange = (filters: InvoiceFilters) => {
     setCurrentFilters(filters);
     loadInvoices(filters);
   };

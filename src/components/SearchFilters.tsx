@@ -24,22 +24,22 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
   });
 
   const onSubmit = (data: InvoiceFilters) => {
-    console.log('SearchFilters - Raw form data:', data);
-    
     // Remove empty values and convert types
     const cleanData = Object.fromEntries(
       Object.entries(data).filter(([_, value]) => 
-        value !== undefined && value !== null && value !== ''
+        value !== undefined && value !== null && value !== '' && !isNaN(Number(value))
       ).map(([key, value]) => {
         // Convert active filter from string to boolean
         if (key === 'active' && typeof value === 'string') {
           return [key, value === 'true'];
         }
+        // Ensure numeric values are properly converted
+        if ((key === 'min_amount' || key === 'max_amount') && typeof value === 'number') {
+          return [key, value];
+        }
         return [key, value];
       })
     ) as InvoiceFilters;
-    
-    console.log('SearchFilters - Cleaned data:', cleanData);
     
     onFiltersChange(cleanData);
   };
@@ -70,10 +70,7 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
       </div>
 
       <form 
-        onSubmit={(e) => {
-          console.log('Form submitted');
-          handleSubmit(onSubmit)(e);
-        }} 
+        onSubmit={handleSubmit(onSubmit)} 
         className="space-y-4"
       >
         {/* Basic Search */}
@@ -126,6 +123,10 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
         {/* Advanced Filters */}
         {isExpanded && (
           <div className="space-y-4 pt-4 border-t border-gray-200">
+            <div className="text-sm text-gray-600 bg-blue-50 p-3 rounded-md">
+              <p className="font-medium mb-1">💡 Consejo:</p>
+              <p>Después de configurar los filtros de fecha, haz clic en "Buscar" para aplicar los filtros.</p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-semibold text-gray-800 mb-2">
@@ -135,6 +136,7 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
                   type="date"
                   {...register('date_from')}
                   className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
+                  title="Selecciona la fecha de inicio del rango a filtrar"
                 />
               </div>
 
@@ -158,7 +160,10 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
                 <input
                   type="number"
                   step="0.01"
-                  {...register('min_amount', { valueAsNumber: true })}
+                  {...register('min_amount', { 
+                    valueAsNumber: true,
+                    setValueAs: (value) => value === '' ? undefined : Number(value)
+                  })}
                   className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
                   placeholder="0.00"
                 />
@@ -171,7 +176,10 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
                 <input
                   type="number"
                   step="0.01"
-                  {...register('max_amount', { valueAsNumber: true })}
+                  {...register('max_amount', { 
+                    valueAsNumber: true,
+                    setValueAs: (value) => value === '' ? undefined : Number(value)
+                  })}
                   className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
                   placeholder="0.00"
                 />
@@ -182,7 +190,10 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
                   Elementos por página
                 </label>
                 <select
-                  {...register('per_page', { valueAsNumber: true })}
+                  {...register('per_page', { 
+                    valueAsNumber: true,
+                    setValueAs: (value) => value === '' ? undefined : Number(value)
+                  })}
                   className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium"
                 >
                   <option value={5}>5</option>
@@ -202,7 +213,6 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
             <button
               type="submit"
               disabled={isLoading}
-              onClick={() => console.log('Search button clicked')}
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
             >
               <MagnifyingGlassIcon className="w-4 h-4" />
