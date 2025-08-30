@@ -16,6 +16,7 @@ interface SearchFiltersProps {
 
 export default function SearchFilters({ onFiltersChange, isLoading }: SearchFiltersProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  
   const { register, handleSubmit, reset, watch } = useForm<InvoiceFilters>({
     defaultValues: {
       per_page: 15,
@@ -23,12 +24,22 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
   });
 
   const onSubmit = (data: InvoiceFilters) => {
-    // Remove empty values
+    console.log('SearchFilters - Raw form data:', data);
+    
+    // Remove empty values and convert types
     const cleanData = Object.fromEntries(
       Object.entries(data).filter(([_, value]) => 
         value !== undefined && value !== null && value !== ''
-      )
+      ).map(([key, value]) => {
+        // Convert active filter from string to boolean
+        if (key === 'active' && typeof value === 'string') {
+          return [key, value === 'true'];
+        }
+        return [key, value];
+      })
     ) as InvoiceFilters;
+    
+    console.log('SearchFilters - Cleaned data:', cleanData);
     
     onFiltersChange(cleanData);
   };
@@ -58,7 +69,13 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form 
+        onSubmit={(e) => {
+          console.log('Form submitted');
+          handleSubmit(onSubmit)(e);
+        }} 
+        className="space-y-4"
+      >
         {/* Basic Search */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
@@ -83,9 +100,11 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
             >
               <option value="">Todos los estados</option>
               <option value="Vigente">Vigente</option>
-              <option value="Pagada">Pagada</option>
-              <option value="Vencida">Vencida</option>
-              <option value="Cancelada">Cancelada</option>
+              <option value="Pagado">Pagado</option>
+              <option value="Vencido">Vencido</option>
+              <option value="Cancelado">Cancelado</option>
+              <option value="Pendiente">Pendiente</option>
+              <option value="Vigent545">Vigent545</option>
             </select>
           </div>
 
@@ -183,6 +202,7 @@ export default function SearchFilters({ onFiltersChange, isLoading }: SearchFilt
             <button
               type="submit"
               disabled={isLoading}
+              onClick={() => console.log('Search button clicked')}
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
             >
               <MagnifyingGlassIcon className="w-4 h-4" />

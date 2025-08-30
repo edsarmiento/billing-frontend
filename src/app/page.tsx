@@ -24,7 +24,7 @@ export default function Home() {
 
   // Load invoices on component mount
   useEffect(() => {
-    loadInvoices();
+    loadInvoices({ per_page: 15 });
   }, []);
 
   const loadInvoices = async (filters: InvoiceFilters = currentFilters) => {

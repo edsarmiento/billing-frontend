@@ -7,6 +7,8 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const queryString = searchParams.toString();
     
+    console.log('Proxy received searchParams:', Object.fromEntries(searchParams.entries()));
+    
     const backendUrl = `${BACKEND_URL}/invoices${queryString ? `?${queryString}` : ''}`;
     
     console.log('Proxying request to:', backendUrl);

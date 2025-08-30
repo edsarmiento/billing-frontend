@@ -6,7 +6,7 @@ export interface Invoice {
   invoice_date: string;
   formatted_date: string;
   short_date: string;
-  status: 'Vigente' | 'Pagada' | 'Vencida' | 'Cancelada' | 'Pendiente' | 'Cancelado';
+  status: 'Vigente' | 'Pagado' | 'Vencido' | 'Cancelado' | 'Pendiente' | 'Vigent545';
   active: boolean;
   active_status_text: string;
   active_status_class: string;

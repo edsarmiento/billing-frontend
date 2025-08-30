@@ -26,6 +26,7 @@ export default function InvoiceTable({
   onExport,
   onViewInvoice,
 }: InvoiceTableProps) {
+  console.log('InvoiceTable - Component rendered with props:', { data, isLoading });
   const [sortField, setSortField] = useState<keyof Invoice>('invoice_date');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
@@ -64,6 +65,10 @@ export default function InvoiceTable({
     );
   }
 
+  console.log('InvoiceTable - data received:', data);
+  console.log('InvoiceTable - data.invoices:', data?.invoices);
+  console.log('InvoiceTable - data.invoices?.length:', data?.invoices?.length);
+  
   if (!data || data.invoices.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">

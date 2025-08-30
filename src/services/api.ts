@@ -1,6 +1,6 @@
 import { Invoice, InvoiceFilters, InvoiceResponse } from '@/types/invoice';
 
-const API_BASE_URL = 'http://localhost:3000/api/v1';
+const API_BASE_URL = '/api';
 
 class ApiServiceError extends Error {
   constructor(
@@ -22,6 +22,7 @@ async function handleResponse<T>(response: Response): Promise<T> {
       errorData.errors
     );
   }
+  
   return response.json();
 }
 
@@ -37,6 +38,7 @@ export const invoiceApi = {
     });
 
     const url = `${API_BASE_URL}/invoices${params.toString() ? `?${params.toString()}` : ''}`;
+    
     const response = await fetch(url, {
       headers: {
         'Accept': 'application/json',
