@@ -4,10 +4,10 @@ const BACKEND_URL = process.env.BACKEND_API_URL || 'http://localhost:3000/api/v1
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { number: string } }
+  { params }: { params: Promise<{ number: string }> }
 ) {
   try {
-    const invoiceNumber = params.number;
+    const { number: invoiceNumber } = await params;
     
     console.log('Fetching invoice:', invoiceNumber);
     
