@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import { InvoiceFilters, InvoiceResponse, Invoice } from '@/types/invoice';
 import { invoiceApi, ApiError } from '@/services/api';
@@ -22,12 +22,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Load invoices on component mount
-  useEffect(() => {
-    loadInvoices({ per_page: 15 });
-  }, [loadInvoices]);
-
-  const loadInvoices = async (filters: InvoiceFilters = currentFilters) => {
+  const loadInvoices = useCallback(async (filters: InvoiceFilters = currentFilters) => {
     setIsLoading(true);
     setError(null);
     
@@ -42,9 +37,14 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentFilters]);
 
-    const handleFiltersChange = (filters: InvoiceFilters) => {
+  // Load invoices on component mount
+  useEffect(() => {
+    loadInvoices({ per_page: 15 });
+  }, [loadInvoices]);
+
+  const handleFiltersChange = (filters: InvoiceFilters) => {
     setCurrentFilters(filters);
     loadInvoices(filters);
   };
