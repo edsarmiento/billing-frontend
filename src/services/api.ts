@@ -1,22 +1,22 @@
-import { Invoice, InvoiceFilters, InvoiceResponse, ApiError } from '@/types/invoice';
+import { Invoice, InvoiceFilters, InvoiceResponse } from '@/types/invoice';
 
 const API_BASE_URL = 'http://localhost:3000/api/v1';
 
-class ApiError extends Error {
+class ApiServiceError extends Error {
   constructor(
     message: string,
     public status?: number,
     public errors?: Record<string, string[]>
   ) {
     super(message);
-    this.name = 'ApiError';
+    this.name = 'ApiServiceError';
   }
 }
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new ApiError(
+    throw new ApiServiceError(
       errorData.message || `HTTP error! status: ${response.status}`,
       response.status,
       errorData.errors
@@ -96,7 +96,7 @@ export const invoiceApi = {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new ApiError(
+      throw new ApiServiceError(
         errorData.message || `HTTP error! status: ${response.status}`,
         response.status,
         errorData.errors
@@ -107,4 +107,4 @@ export const invoiceApi = {
   },
 };
 
-export { ApiError };
+export { ApiServiceError as ApiError };
