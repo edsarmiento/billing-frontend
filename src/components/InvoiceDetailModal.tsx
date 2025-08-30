@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Invoice } from '@/types/invoice';
-import { formatDate, formatCurrency, formatDateTime } from '@/utils/formatters';
+
 import StatusBadge from './StatusBadge';
 
 interface InvoiceDetailModalProps {
@@ -71,9 +71,7 @@ export default function InvoiceDetailModal({
                           <h4 className="text-2xl font-bold text-gray-900">
                             {invoice.invoice_number}
                           </h4>
-                          {invoice.customer_name && (
-                            <p className="text-gray-600 mt-1">{invoice.customer_name}</p>
-                          )}
+                          <p className="text-gray-600 mt-1">ID: {invoice.id}</p>
                         </div>
                         <StatusBadge status={invoice.status} />
                       </div>
@@ -81,10 +79,10 @@ export default function InvoiceDetailModal({
                       {/* Amount */}
                       <div className="bg-gray-50 rounded-lg p-4">
                         <div className="text-center">
-                          <p className="text-sm text-gray-600">Monto Total</p>
-                          <p className="text-3xl font-bold text-gray-900">
-                            {formatCurrency(invoice.amount, invoice.currency)}
-                          </p>
+                                                      <p className="text-sm text-gray-600">Monto Total</p>
+                            <p className="text-3xl font-bold text-gray-900">
+                              {invoice.formatted_total}
+                            </p>
                         </div>
                       </div>
 
@@ -96,59 +94,47 @@ export default function InvoiceDetailModal({
                             <div>
                               <dt className="text-sm text-gray-500">Fecha de Emisión</dt>
                               <dd className="text-sm font-medium text-gray-900">
-                                {formatDate(invoice.issue_date)}
+                                {invoice.formatted_date}
                               </dd>
                             </div>
                             <div>
-                              <dt className="text-sm text-gray-500">Fecha de Vencimiento</dt>
+                              <dt className="text-sm text-gray-500">Fecha Corta</dt>
                               <dd className="text-sm font-medium text-gray-900">
-                                {formatDate(invoice.due_date)}
+                                {invoice.short_date}
                               </dd>
                             </div>
                           </dl>
                         </div>
 
                         <div>
-                          <h5 className="text-sm font-medium text-gray-900 mb-3">Información del Cliente</h5>
+                          <h5 className="text-sm font-medium text-gray-900 mb-3">Información del Estado</h5>
                           <dl className="space-y-2">
-                            {invoice.customer_email && (
-                              <div>
-                                <dt className="text-sm text-gray-500">Email</dt>
-                                <dd className="text-sm font-medium text-gray-900">
-                                  {invoice.customer_email}
-                                </dd>
-                              </div>
-                            )}
                             <div>
-                              <dt className="text-sm text-gray-500">Estado</dt>
+                              <dt className="text-sm text-gray-500">Estado Activo</dt>
                               <dd className="text-sm font-medium text-gray-900">
-                                {invoice.active ? 'Activa' : 'Inactiva'}
+                                {invoice.active_status_text}
+                              </dd>
+                            </div>
+                            <div>
+                              <dt className="text-sm text-gray-500">Categoría de Monto</dt>
+                              <dd className="text-sm font-medium text-gray-900">
+                                {invoice.amount_category}
                               </dd>
                             </div>
                           </dl>
                         </div>
                       </div>
 
-                      {/* Description */}
-                      {invoice.description && (
-                        <div>
-                          <h5 className="text-sm font-medium text-gray-900 mb-2">Descripción</h5>
-                          <p className="text-sm text-gray-600 bg-gray-50 rounded-lg p-3">
-                            {invoice.description}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Timestamps */}
+                      {/* Additional Info */}
                       <div className="border-t border-gray-200 pt-4">
                         <dl className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                           <div>
-                            <dt className="text-gray-500">Creado</dt>
-                            <dd className="text-gray-900">{formatDateTime(invoice.created_at)}</dd>
+                            <dt className="text-gray-500">Días desde creación</dt>
+                            <dd className="text-gray-900">{invoice.days_since_created} días</dd>
                           </div>
                           <div>
-                            <dt className="text-gray-500">Actualizado</dt>
-                            <dd className="text-gray-900">{formatDateTime(invoice.updated_at)}</dd>
+                            <dt className="text-gray-500">Estado</dt>
+                            <dd className="text-gray-900">{invoice.status}</dd>
                           </div>
                         </dl>
                       </div>
